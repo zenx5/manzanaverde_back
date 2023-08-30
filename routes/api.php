@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +16,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('/user/login', function (Request $request) {
+    
+    $email = $request->input('email');
+    $password = $request->input('password');
+    $hashedPassword = Hash::make($password);
+
+
+    return $hashedPassword;
 });
+
+Route::post('/user/register', function (Request $request) {
+    return $_POST;
+});
+
+
+Route::resource('foods', App\Http\Controllers\API\FoodAPIController::class)
+    ->except(['create', 'edit']);
