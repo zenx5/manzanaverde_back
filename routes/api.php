@@ -16,20 +16,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/user/login', function (Request $request) {
-    
-    $email = $request->input('email');
-    $password = $request->input('password');
-    $hashedPassword = Hash::make($password);
-
-
-    return $hashedPassword;
-});
-
-Route::post('/user/register', function (Request $request) {
-    return $_POST;
-});
-
+Route::post('login', [App\Http\Controllers\Auth\AuthController::class, 'login']);
+Route::post('register', [App\Http\Controllers\Auth\AuthController::class, 'register']);
+Route::post('logout', [App\Http\Controllers\Auth\AuthController::class, 'logout']);
 
 Route::resource('foods', App\Http\Controllers\API\FoodAPIController::class)
     ->except(['create', 'edit']);
