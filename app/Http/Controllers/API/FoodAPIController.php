@@ -33,8 +33,14 @@ class FoodAPIController extends AppBaseController
             $request->get('skip'),
             $request->get('limit')
         );
-
-        return $this->sendResponse($food->toArray(), 'Food retrieved successfully');
+        $result = [];
+        foreach ($food->toArray() as $item) {
+            $result[] = [
+                ...$item,
+                'price' => floatval($item['price'])
+            ];
+        }
+        return $this->sendResponse( $result, 'Food retrieved successfully');
     }
 
     /**

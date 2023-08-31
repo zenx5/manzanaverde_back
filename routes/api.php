@@ -24,4 +24,6 @@ Route::post('status', [App\Http\Controllers\Auth\AuthController::class, 'status'
 Route::middleware('JwtMiddleware')->resource('foods', App\Http\Controllers\API\FoodAPIController::class)
     ->except(['create', 'edit']);
 
-// Route::middleware('JwtMiddleware')->resource('orders', App\Http\Controllers\API\OrderAPIController::class);
+
+Route::resource('orders', App\Http\Controllers\API\OrderAPIController::class)
+    ->except(['create', 'edit']);

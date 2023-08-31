@@ -4,7 +4,7 @@ services:
         image: webdevops/php-apache-dev:8.1
         container_name: backend_not_apple
         restart: "no"
-        user: application
+        user: root
         environment:
           - WEB_ALIAS_DOMAIN=backend.loc
           - WEB_DOCUMENT_ROOT=/app

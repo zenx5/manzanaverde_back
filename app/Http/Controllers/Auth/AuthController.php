@@ -17,7 +17,7 @@ class AuthController extends Controller
             $validate = $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
-                'password' => 'required',
+                'password' => 'required|confirmed',
             ]);
             $user = User::create([
                 'name' => $request->name,
@@ -35,7 +35,7 @@ class AuthController extends Controller
         } catch(Illuminate\Validation\ValidationException $error) {
             return response()->json([
                 'error' => true,
-                'message' => 'Validation failed'
+                'message' => 'Validation failed: '.$error.getMessage()
             ], 400);
         }
         finally {
@@ -64,8 +64,11 @@ class AuthController extends Controller
                     'message' => 'Unauthorized'
                 ], 401);
             }
+            $user = User::where('email', $request->email)->first();
+            unset($user->email_verified_at);
             return response()->json([
                 'error' => false,
+                'user' => $user,
                 'token' => $token
             ], 200);
         } catch( Exception $error ) {
