@@ -25,5 +25,4 @@ Route::middleware('JwtMiddleware')->resource('foods', App\Http\Controllers\API\F
     ->except(['create', 'edit']);
 
 
-Route::resource('orders', App\Http\Controllers\API\OrderAPIController::class)
-    ->except(['create', 'edit']);
+Route::resource('orders', App\Http\Controllers\API\OrderAPIController::class);
