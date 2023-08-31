@@ -19,6 +19,9 @@ use Illuminate\Support\Facades\Route;
 Route::post('login', [App\Http\Controllers\Auth\AuthController::class, 'login']);
 Route::post('register', [App\Http\Controllers\Auth\AuthController::class, 'register']);
 Route::post('logout', [App\Http\Controllers\Auth\AuthController::class, 'logout']);
+Route::post('status', [App\Http\Controllers\Auth\AuthController::class, 'status']);
 
-Route::resource('foods', App\Http\Controllers\API\FoodAPIController::class)
+Route::middleware('JwtMiddleware')->resource('foods', App\Http\Controllers\API\FoodAPIController::class)
     ->except(['create', 'edit']);
+
+// Route::middleware('JwtMiddleware')->resource('orders', App\Http\Controllers\API\OrderAPIController::class);

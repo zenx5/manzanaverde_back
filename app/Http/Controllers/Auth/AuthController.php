@@ -66,7 +66,8 @@ class AuthController extends Controller
             }
             return response()->json([
                 'error' => false,
-                'token' => $token], 200);
+                'token' => $token
+            ], 200);
         } catch( Exception $error ) {
             return response()->json([
                 'error' => true,
@@ -85,15 +86,19 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        return response()->json([
-            'token' => $request->token
-        ], 200);
         try{
-            JWTAuth::invalidate($request->token);
-            return response()->json([
-                'error' => false,
-                'message' => 'User logged out successfully'
-            ], 200);
+            if( !$request->bearerToken() ) {
+                return response()->json([
+                    'error' => true,
+                    'message' => 'Token not found'
+                ], 401);
+            }else {
+                JWTAuth::manager()->invalidate( new \Tymon\JWTAuth\Token($request->bearerToken()) );
+                return response()->json([
+                    'error' => false,
+                    'message' => 'User logged out successfully'
+                ], 200);
+            }
         } catch( Exception $error ) {
             return response()->json([
                 'error' => true,
@@ -101,4 +106,5 @@ class AuthController extends Controller
             ], 400);
         }
     }
+
 }
